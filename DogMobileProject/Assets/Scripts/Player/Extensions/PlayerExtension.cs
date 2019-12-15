@@ -22,31 +22,31 @@ namespace ViewModelExtensions
             foreach (XmlNode node in all_nodes)
             {
                 PlayerViewModel newVM = new PlayerViewModel();
-                vm.ClassId = int.Parse(node.SelectSingleNode("ClassId").InnerText);
+                newVM.ClassId = int.Parse(node.SelectSingleNode("ClassId").InnerText);
 
-                vm.MaxSpeed = float.Parse(node.SelectSingleNode("MaxSpeed").InnerText);
+                newVM.MaxSpeed = float.Parse(node.SelectSingleNode("MaxSpeed").InnerText);
 
-                vm.ModelName = node.SelectSingleNode("ModelName").InnerText;
-                vm.PlayerName = node.SelectSingleNode("PlayerName").InnerText;
-                vm.PrefabName = node.SelectSingleNode("PrefabName").InnerText;
+                newVM.ModelName = node.SelectSingleNode("ModelName").InnerText;
+                newVM.PlayerName = node.SelectSingleNode("PlayerName").InnerText;
+                newVM.PrefabName = node.SelectSingleNode("PrefabName").InnerText;
 
-                vm.Attack = float.Parse(node.SelectSingleNode("Attack").InnerText);
-                vm.Defend = float.Parse(node.SelectSingleNode("Defend").InnerText);
-                vm.MaxHP = float.Parse(node.SelectSingleNode("HP").InnerText);
-                vm.CurHP = vm.MaxHP;
-                vm.CurrentSpeed = float.Parse(node.SelectSingleNode("StartSpeed").InnerText);
-                vm.Agility = float.Parse(node.SelectSingleNode("Agility").InnerText);
-                vm.Resistance = float.Parse(node.SelectSingleNode("Resistance").InnerText);
+                newVM.Attack = float.Parse(node.SelectSingleNode("Attack").InnerText);
+                newVM.Defend = float.Parse(node.SelectSingleNode("Defend").InnerText);
+                newVM.MaxHP = float.Parse(node.SelectSingleNode("HP").InnerText);
+                newVM.CurHP = newVM.MaxHP;
+                newVM.CurrentSpeed = float.Parse(node.SelectSingleNode("StartSpeed").InnerText);
+                newVM.Agility = float.Parse(node.SelectSingleNode("Agility").InnerText);
+                newVM.Resistance = float.Parse(node.SelectSingleNode("Resistance").InnerText);
 
-                vm.MaxRotation = float.Parse(node.SelectSingleNode("MaxRotationSpeed").InnerText);
-                vm.RotationSpeed = float.Parse(node.SelectSingleNode("RotationSpeed").InnerText);
-                vm.AccelateFactor = float.Parse(node.SelectSingleNode("AccelateFactor").InnerText);
+                newVM.MaxRotation = float.Parse(node.SelectSingleNode("MaxRotationSpeed").InnerText);
+                newVM.RotationSpeed = float.Parse(node.SelectSingleNode("RotationSpeed").InnerText);
+                newVM.AccelateFactor = float.Parse(node.SelectSingleNode("AccelateFactor").InnerText);
 
-                vm.CurrentPosition = Vector3.zero;
-                vm.CurrentRotation = Quaternion.identity;
-                vm.CurrentDirection = Vector3.forward;
+                newVM.CurrentPosition = Vector3.zero;
+                newVM.CurrentRotation = Quaternion.identity;
+                newVM.CurrentDirection = Vector3.forward;
 
-                _VMTable.Add(vm.ClassId, vm);
+                _VMTable.Add(newVM.ClassId, newVM);
             }
         }
         public static void Log2(this PlayerViewModel vm)

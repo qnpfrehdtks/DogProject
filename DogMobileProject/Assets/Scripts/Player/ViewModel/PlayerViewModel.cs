@@ -246,28 +246,17 @@ public class PlayerViewModel
         _maxRotationSpeed = Mathf.Clamp(_maxRotationSpeed, 0.1f, 5.0f);
     }
 
-    public void UpdatePosition(Vector3 _forward)
+    public void UpdateSpeed()
     {
         _currentSpeed += Time.deltaTime * _accelateFactor;
 
         CheckMaxVelocity();
-
-        _currentPosition += _forward * _currentSpeed * Time.deltaTime;
-
-        Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(_currentPosition);
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
-        if ((mouseOnScreen - positionOnScreen).magnitude < 0.05f) return;
-
-        float angle = AngleBetweenTwoPoints(mouseOnScreen, positionOnScreen);
-        Quaternion quat = Quaternion.Euler(new Vector3(0f, -angle, 0));
-        _currentRotation = Quaternion.Lerp(_currentRotation, quat, Time.deltaTime / _rotaionSpeed);
     }
 
-    public void DeccelateSpeed(Vector3 _forward)
+    public void resetSpeed()
     {
-        _currentSpeed -= Time.deltaTime * _accelateFactor;
-        _currentPosition += _forward * _currentSpeed * Time.deltaTime;
+        _currentSpeed = 0.0f;
+
     }
 
 
