@@ -22,6 +22,15 @@ public class PlayerManager : Singleton<PlayerManager>
     private Dictionary<int, PlayerViewModel> _PlayerViewModelTable = new Dictionary<int, PlayerViewModel>();
     private ObjectFactory _factory;
 
+    public ObjectFactory Factory
+    {
+        get => _factory;
+        set
+        {
+            _factory = value;
+        }
+    }
+
     public MovingObject Player
     {
         get; private set;
@@ -38,30 +47,16 @@ public class PlayerManager : Singleton<PlayerManager>
         return true;
     }
 
-    public MovingObject CreatePlayer(Vector3 _pos, Quaternion _quat, PLAYER_TYPE _type)
+    public MovingObject CreatePlayer(Vector3 pos, Quaternion quat, PLAYER_TYPE type)
     {
-        var vm = _PlayerViewModelTable[(int)_type];
+        if(!_factory)
+        {
+            Debug.LogError("팩토리 생성하고 와라");
+            return null;
+        }
 
-        GameObject parentObject = Instantiate(Resources.Load<GameObject>("Prefabs/" + vm.PrefabName));
-        GameObject modelObject = Instantiate(Resources.Load<GameObject>("Models/" + vm.ModelName));
-
-        parentObject.transform.position = _pos;
-        parentObject.transform.rotation = _quat;
-
-        modelObject.transform.SetParent(parentObject.transform);
-        modelObject.transform.localPosition = Vector3.zero;
-        modelObject.transform.localRotation = Quaternion.identity;
-
-        MovingObject newObj = parentObject.GetComponent<MovingObject>();
-
-        if (newObj == null)
-            newObj = parentObject.AddComponent<MovingObject>();
-
-        newObj.Initialized(vm);
-
-        return newObj;
+        return _factory.CreateObject<MovingObject>(pos, quat, type ,_PlayerViewModelTable[(int)type]);
     }
-
 
     void LoadXML()
     {

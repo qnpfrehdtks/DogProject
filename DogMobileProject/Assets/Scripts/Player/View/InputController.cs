@@ -4,14 +4,14 @@ using UnityEngine;
 
 public abstract class InputController : MonoBehaviour
 {
-    private delegate bool pressAction();
+    public delegate bool ScreenAction();
 
     protected MovingObject _player;
     protected PlayerViewModel _viewModel;
     protected Transform _playerTransform;
-    protected Animator _playerAnimator;
 
-    pressAction _pressAction;
+    public ScreenAction _pressConditions { get; set; }
+    public ScreenAction _releaseConditions { get; set; }
 
     public PlayerViewModel ViewModel { get; protected set; }
     public MovingObject Player
@@ -22,12 +22,80 @@ public abstract class InputController : MonoBehaviour
             _player = value;
             _playerTransform = _player.transform;
             _viewModel = _player.ViewModel;
-            _playerAnimator = _player.ObjectAnimator;
         }
     }
-    protected abstract void UpdateController();
 
-    protected void ObjectMove(Vector3 screenPos)
+    private void Awake()
+    {
+#if UNITY_EDITOR
+        _pressConditions = delegate ()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+               // PressScreen(Input.mousePosition);
+                return true;
+            }
+            else
+                return false;
+        };
+        _releaseConditions = delegate ()
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+               // ReleaseScreen();
+                return true;
+            }
+            else
+                return false;
+        };
+
+#elif UNITY_ANDROID
+
+        _pressAction = delegate ()
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                return (touch.phase == TouchPhase.Moved);
+            }
+
+            return false;
+        };
+
+        _releaseAction = delegate ()
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                return (touch.phase == TouchPhase.Ended);
+            };
+
+            return false;
+        };
+#endif
+    }
+
+
+    public abstract void PressScreen(Vector3 screenPos);
+    public abstract void ReleaseScreen();
+}
+
+
+class DefalutInputController : InputController
+{
+    public override void PressScreen(Vector3 screenPos)
+    {
+    }
+
+    public override void ReleaseScreen()
+    {
+    }
+}
+
+
+class NormalInputContoller : InputController
+{
+    public override void PressScreen(Vector3 screenPos)
     {
         if (_viewModel == null) return;
         if (_playerTransform == null) return;
@@ -50,52 +118,12 @@ public abstract class InputController : MonoBehaviour
 
         _playerTransform.forward = rot;
 
-        if (_playerAnimator != null)
-            _playerAnimator.Play("Run");
     }
 
-    protected virtual void Update()
+    public override void ReleaseScreen()
     {
-        UpdateController();
-    }
-
-}
-
-public class EditorInputController : InputController
-{
-    protected override void UpdateController()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            ObjectMove(Input.mousePosition);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            _viewModel.resetSpeed();
-            _playerAnimator.Play("Idle");
-        }
+        _viewModel.resetSpeed();
     }
 }
 
-public class MobileInputController : InputController
-{
 
-    protected override void UpdateController()
-    {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Moved)
-            {
-                ObjectMove(touch.position);
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                _viewModel.resetSpeed();
-                _playerAnimator.Play("Idle");
-            }
-        }
-    }
-
-}

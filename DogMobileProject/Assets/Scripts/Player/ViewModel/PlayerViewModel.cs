@@ -228,17 +228,15 @@ public class PlayerViewModel
         }
     }
 
-    public float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+    public bool CheckMaxVelocity()
     {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-    }
-
-    public void CheckMaxVelocity()
-    {
-        if (_currentSpeed > MaxSpeed)
+        if (_currentSpeed >= MaxSpeed - 0.01f)
         {
             _currentSpeed = MaxSpeed;
+            return true;
         }
+
+        return false;
     }
 
     public void CheckMaxRotationSpeed()
@@ -248,7 +246,7 @@ public class PlayerViewModel
 
     public void UpdateSpeed()
     {
-        _currentSpeed += Time.deltaTime * _accelateFactor;
+        _currentSpeed += Time.deltaTime * 1.0f;
 
         CheckMaxVelocity();
     }
