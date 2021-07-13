@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Root>
+<text>
+  <ClassId></ClassId>
+  <PlayerName></PlayerName>
+  <ModelName></ModelName>
+  <PrefabName></PrefabName>
+  <Attack></Attack>
+  <Defend></Defend>
+  <HP></HP>
+  <Agility></Agility>
+  <Resistance></Resistance>
+  <MaxSpeed></MaxSpeed>
+  <MaxRotationSpeed></MaxRotationSpeed>
+  <RotationSpeed></RotationSpeed>
+  <StartSpeed></StartSpeed>
+  <AccelateFactor></AccelateFactor>
+</text>
+<text>
+  <ClassId></ClassId>
+  <PlayerName></PlayerName>
+  <ModelName></ModelName>
+  <PrefabName></PrefabName>
+  <Attack></Attack>
+  <Defend></Defend>
+  <HP></HP>
+  <Agility></Agility>
+  <Resistance></Resistance>
+  <MaxSpeed></MaxSpeed>
+  <MaxRotationSpeed></MaxRotationSpeed>
+  <RotationSpeed></RotationSpeed>
+  <StartSpeed></StartSpeed>
+  <AccelateFactor></AccelateFactor>
+</text>
+</Root>
