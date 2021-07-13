@@ -9,6 +9,9 @@ public class Player : MovingObject
     protected override void Awake()
     {
         base.Awake();
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.SetResolution(Screen.width, (int)(Screen.width * (16.0f / 9.0f)), true);
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,10 +26,17 @@ public class Player : MovingObject
             Destroy(gameObject);
     }
 
-    protected override void Update()
+    public float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
     {
-        base.Update();
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
     }
+
+
+    private void Update()
+    {
+
+    }
+
 
 
 }
